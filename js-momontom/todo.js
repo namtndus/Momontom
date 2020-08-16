@@ -2,6 +2,8 @@ const toDoform = document.querySelector(".js-toDoForm"),
   toDoInput = toDoform.querySelector("input");
 const pending = document.querySelector(".js-add"),
   finished = document.querySelector(".js-check");
+const list = document.querySelector(".finsiched");
+const lists = document.querySelector(".pending");
 let tasks = [];
 let finishTasks = [];
 const TASK = "PENDING";
@@ -79,6 +81,7 @@ function checkTask(text) {
     text: text,
     id: finishId,
   };
+  list.classList.remove("noshow");
   finishTasks.push(finishTaskObj);
   saveTask(ENDTASK, finishTasks);
 }
@@ -108,6 +111,7 @@ function addTask(text) {
 }
 
 function inputTask(event) {
+  lists.classList.remove("noshow");
   event.preventDefault();
   const currentValue = toDoInput.value;
   addTask(currentValue);
@@ -122,12 +126,16 @@ function loadTacks() {
     parsedToDos.forEach(function (toDo) {
       addTask(toDo.text);
     });
+  } else {
+    lists.classList.add("noshow");
   }
   if (finishToDos !== null) {
     const endToDos = JSON.parse(finishToDos);
     endToDos.forEach(function (story) {
       checkTask(story.text);
     });
+  } else {
+    list.classList.add("noshow");
   }
 }
 
